@@ -44,8 +44,12 @@ public class ServerWorker extends Thread {
                 } else if ("/login".equalsIgnoreCase(cmd)) {
                     handleLogin(outputStream, tokens);
                 } else {
-                    String msg = "unknown " + line + "\n";
-                    outputStream.write(msg.getBytes());
+                    String msg = " " + login + ": " + line + "\r \n";
+
+                    List<ServerWorker> workerList = server.getWorkerList();
+                    for(ServerWorker worker : workerList){
+                        worker.send(msg);
+                    }
                 }
             }
         }
@@ -56,6 +60,8 @@ public class ServerWorker extends Thread {
         return login;
     }
 
+
+
     private void handleLogin(OutputStream outputStream, String[] tokens) throws IOException {
         if(tokens.length == 3){
             String login = tokens[1];
@@ -63,10 +69,7 @@ public class ServerWorker extends Thread {
 
             if (login.equalsIgnoreCase("guest") && password.equals("Welcome") || login.equalsIgnoreCase("Ivan") && password.equals("Ivan")){
                 this.login = login;
-                String msg = "User " + login + " logged in \n";
-//                outputStream.write(msg.getBytes());
-                send(msg);
-                String onlineMsg = "online " + login + "\n";
+                String onlineMsg = "online " + login + "\r \n";
 
                 List<ServerWorker> workerList = server.getWorkerList();
                 for(ServerWorker worker : workerList){
@@ -74,8 +77,8 @@ public class ServerWorker extends Thread {
                 }
 
             } else {
-                String msg = "user not found \n";
-                outputStream.write((msg.getBytes()));
+                String msg = " user not found \r \n";
+                send(msg);
             }
         }
     }

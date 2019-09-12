@@ -20,15 +20,15 @@ public class Server extends Thread{
     @Override
     public void run() {
         try {
-            ServerSocket serverSocket = new ServerSocket(serverPort); // create a socket on selected port
+            ServerSocket serverSocket = new ServerSocket(serverPort);                   // create a socket on selected port
             while(true) {
                 System.out.println("About to accept client connection");
-                Socket clientSocket = serverSocket.accept(); // waiting for client to connect
+                Socket clientSocket = serverSocket.accept();                            // waiting for client to connect
                 System.out.println("client connected" + clientSocket);
-                ServerWorker worker = new ServerWorker(this, clientSocket); // move client to a separate Thread to handle multiple connections
+                ServerWorker worker = new ServerWorker(this, clientSocket);      // move client to a separate Thread to handle multiple connections
                 workerList.add(worker);
 
-                worker.start(); // who knows...
+                worker.start();                                                         // who knows...
             }
         } catch (IOException e) {
             e.printStackTrace();
