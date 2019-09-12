@@ -37,7 +37,7 @@ public class ServerWorker extends Thread {
         while ((line = reader.readLine()) != null) {
             String[] tokens = line.split(" ");
 
-            if (tokens != null && tokens.length > 0) {
+            if (tokens.length > 0) {
                 String cmd = tokens[0];
                 if ("/q".equalsIgnoreCase(line)) {
                     break;
@@ -64,8 +64,8 @@ public class ServerWorker extends Thread {
             if (login.equalsIgnoreCase("guest") && password.equals("Welcome") || login.equalsIgnoreCase("Ivan") && password.equals("Ivan")){
                 this.login = login;
                 String msg = "User " + login + " logged in \n";
-                outputStream.write(msg.getBytes());
-
+//                outputStream.write(msg.getBytes());
+                send(msg);
                 String onlineMsg = "online " + login + "\n";
 
                 List<ServerWorker> workerList = server.getWorkerList();
